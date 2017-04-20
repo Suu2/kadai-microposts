@@ -1,0 +1,3 @@
+[19-Apr-2017 09:08:31 UTC] PHP Fatal error:  Class 'Route' not found in /home/ubuntu/workspace/microposts/app/Http/routes.php on line 14
+[19-Apr-2017 09:08:31 UTC] PHP Stack trace:
+[19-Apr-2017 09:08:31 UTC] PHP   1. {main}() /home/ubuntu/workspace/microposts/app/Http/routes.php:0
