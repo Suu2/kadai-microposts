@@ -3,7 +3,21 @@
 @section('content')
     @if (Auth::check())
         <?php $user = Auth::user(); ?>
-        {{ $user->name }}
+        <div class="row">
+            <aside class="col-md-4">
+                {!! Form::open(['route' => 'microposts.store']) !!}
+                    <div class="from-group">
+                        {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'row' => '5']) !!}
+                    </div>
+                    {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+                {!! Form::close() !!}
+            </aside>
+            <div class="col-xs-8">
+                @if (count($microposts) > 0)
+                    @include('microposts.microposts', ['microposts' => $microposts])
+                @endif
+            </div>
+        </div>
     @else
         <div class="jumbotron">
             <div class="text-center">
@@ -13,4 +27,3 @@
         </div>
     @endif
 @endsection
-    

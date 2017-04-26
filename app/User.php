@@ -36,4 +36,10 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+    
+    // User(1対多)Micropostsを表現
+    public function microposts()
+    {
+        return $this->hasMany(Micropost::class);
+    }
 }
