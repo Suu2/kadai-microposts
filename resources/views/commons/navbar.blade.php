@@ -15,6 +15,7 @@
                     @if (Auth::check())
                     <!-- <li><a href="#">Users</a></li> -->
                         {!! link_to_route('users.index', 'Users') !!}
+                        {!! link_to_route('microposts.index', 'Favorites') !!}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
                             <ul class="dropdown-menu">

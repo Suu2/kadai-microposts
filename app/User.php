@@ -42,7 +42,13 @@ class User extends Model implements AuthenticatableContract,
     {
         return $this->hasMany(Micropost::class);
     }
-    
+
+    // お気に入りの設定で Users(多対多)Micropostsに追加
+    public function users_favorites()
+    {
+        return $this->belongsToMany(Micropost::class, 'favorites', 'user_id', 'micropost_id')->withTimestamps();
+    }
+
     // 多対多を設定
     public function followings()
     {
@@ -92,7 +98,6 @@ class User extends Model implements AuthenticatableContract,
     public function is_following($userId) {
         return $this->followings()->where('follow_id', $userId)->exists();
     }
-    
 
     public function feed_microposts()
         {
@@ -101,5 +106,38 @@ class User extends Model implements AuthenticatableContract,
             return Micropost::whereIn('user_id', $follow_user_ids);
         }
 
+    public function add_favorite($micropostId)
+    {
+        // 既にお気に入りに追加しているのか確認
+        $exist = $this->is_favorite($micropostId);
+
+        if ($exist) {
+            // 既にお気に入りに追加済なら何もしない
+            return false;
+        } else {
+            // まだお気に入りに追加していないなら追加
+            $this->users_favorites()->attach($micropostId);
+            return true;
+        }
+    }
+
+    public function delete_favorite($micropostId)
+    {
+        // 既にお気に入りに追加しているのか確認
+        $exist = $this->is_favorite($micropostId);
+
+        if ($exist) {
+            // 既にお気に入りに追加済なら削除
+            $this->users_favorites()->detach($micropostId);
+            return true;
+        } else {
+            // まだお気に入りに追加していないなら何もしない
+            return false;
+        }        
+    }
+
+    public function is_favorite($micropostId) {
+        return $this->users_favorites()->where('micropost_id', $micropostId)->exists();
+    }
 
 }

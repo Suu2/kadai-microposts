@@ -47,4 +47,21 @@ class MicropostsController extends Controller
 
     }
 
+    public function index()
+    {
+        //
+        $data = [];
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $microposts = $user->users_favorites()->orderBy('created_at', 'desc')->paginate(10);
+
+            $data = [
+                'user' => $user,
+                'microposts' => $microposts,
+            ];
+        }
+        return view('microposts.favorites', $data);
+    }
+
+
 }

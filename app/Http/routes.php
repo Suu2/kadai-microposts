@@ -37,7 +37,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('unfollow', 'UserFollowController@destroy')->name('user.unfollow');
         Route::get('followings', 'UsersController@followings')->name('users.followings');
         Route::get('followers', 'UsersController@followers')->name('users.followers');
+        
+        Route::post('add_favorite', 'UserFavoriteController@store')->name('user.add_favorite');
+        Route::delete('delete_favorite', 'UserFavoriteController@destroy')->name('user.delete_favorite');
+        Route::get('users_favorites', 'UsersController@users_favorites')->name('users.users_favorites');        
+        
     });
 
-    Route::resource('microposts', 'MicropostsController', ['only' => ['store', 'destroy']]);
+    Route::resource('microposts', 'MicropostsController', ['only' => ['index', 'store', 'destroy']]);
+    // ルーティンググループを作り、prefix microposts/{id}の設定がいるのか
+    // Route::getでmicroposts_favoritesの設定が・・・必要なのか？　5/10（木）18:40時点で保留
 });
